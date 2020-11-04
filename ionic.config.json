@@ -1,0 +1,7 @@
+{
+  "name": "appPanesAndCo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
