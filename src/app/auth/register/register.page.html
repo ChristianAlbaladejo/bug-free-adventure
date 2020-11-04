@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login">
+  <ion-card padding class="login-box">
+    <!--  <img src="../../assets/logo.jpg" alt="" class="if-logo">  -->
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+      <ion-item>
+      <input [(ngModel)]="email" #email="ngModel" placeholder="Email" name="email" type="email" class="fadeIn second"
+        required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+      <span *ngIf="!email.valid && email.touched"> <br> El email es incorrecto</span>
+      <input type="text" id="nombre" class="fadeIn second" name="login" placeholder="Nombre" [(ngModel)]="name"
+        required />
+      <input type="text" id="apellidos" class="fadeIn second" name="login" placeholder="Apellidos" [(ngModel)]="lastname"
+        required />
+      <input type="text" id="cif" class="fadeIn second" name="login" placeholder="NIF" [(ngModel)]="CIF" required />
+      <input type="text" ngx-google-places-autocomplete [options]='options' [(ngModel)]="calle" name="location"
+        id="calle" class="fadeIn second" aria-describedby="direccionHelp" placeholder="Calle" (input)="AddressChange('input')"
+        (onAddressChange)="AddressChange($event)" required />
+      <input type="text" id="teléfono" class="fadeIn second" name="login" placeholder="Telefono" [(ngModel)]="telefono"
+        required />
+      <input type="text" id="cp" class="fadeIn second" name="login" placeholder="CP" [(ngModel)]="CP" required />
+      <input type="text" id="poblacion" class="fadeIn second" name="login" placeholder="Población"
+        [(ngModel)]="poblacion" required />
+      <input type="password" id="password" class="fadeIn second" name="login" placeholder="Contraseña"
+        [(ngModel)]="password" required />
+      <input type="password" id="password2" class="fadeIn second" name="login" placeholder="Repite la contraseña"
+        [(ngModel)]="password2" required />
+      </ion-item>
+
+      <ion-button type="submit" color="primary" class="login-register" block>
+        Register
+      </ion-button>
+      <ion-button routerLink="../login" color="primary" class="login-register" block>
+        Login
+      </ion-button>
+    </form>
+  </ion-card>
+</ion-content>
