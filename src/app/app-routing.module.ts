@@ -32,7 +32,7 @@ const routes: Routes = [
     loadChildren: () => import('./componets/tables/tables.module').then( m => m.TablesPageModule)
   },
   {
-    path: 'products',
+    path: ':family/:id',
     loadChildren: () => import('./componets/products/products.module').then( m => m.ProductsPageModule)
   },
   {

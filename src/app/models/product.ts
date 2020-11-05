@@ -26,6 +26,7 @@ export class Product{
         public AddinRoles: string,
         public IsMenu: string,
         public menu: string,
-        public notes: string
+        public notes: string,
+        public quantity: number
     ){}
 }

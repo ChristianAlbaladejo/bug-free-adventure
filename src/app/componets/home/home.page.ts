@@ -11,8 +11,10 @@ import { NavController, LoadingController, AlertController  } from '@ionic/angul
 
 export class HomePage implements OnInit {
   public user;
-  public cart;
-  public families;
+  public cart = [];
+  public familyes;
+  public search = "";
+  public currentNumber = 0;
   constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController) { }
 
   ngOnInit() {
@@ -21,6 +23,8 @@ export class HomePage implements OnInit {
     let array = localStorage.getItem('cart');
     array = JSON.parse(array);
     for (let i = 0; i < array.length; i++) {
+      console.log(i);
+      
       this.cart.push(array[i]);
     }
     this.load();
@@ -33,7 +37,8 @@ export class HomePage implements OnInit {
     await loading.present();
     this._productsService.getFamilies().subscribe(
       (response) => {
-        this.families = response;
+        console.log(response);
+        this.familyes = response;
         /* for (let i = 0; i < response.length; i++) {
           this.families.sort((a, b) => parseFloat(b.showInPos) - parseFloat(a.showInPos));
         } */
@@ -56,6 +61,10 @@ export class HomePage implements OnInit {
         this.loadingController.dismiss();
       }
     );
+  }
+
+  goToFamili(name ,famili){
+    this.navCtrl.navigateForward('/' + name + '/' + famili.toString());
   }
 
   doRefresh(event) {

@@ -13,9 +13,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-searchbar [(ngModel)]="street" animated #q (keyup.enter)="search(q.value)"></ion-searchbar>
-  <ion-card *ngFor="let famili of families">
+  <ion-card *ngFor="let family of familyes" (click)="goToFamili(family.name ,family.id)">
         <img src="../../../assets/SALADO.jpg" />
-    <div class="card-title">{{famili.name | uppercase }}</div>
+    <div class="card-title">{{family.name | uppercase }}</div>
   </ion-card>
 
 
