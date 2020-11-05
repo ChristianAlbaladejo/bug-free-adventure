@@ -15,23 +15,18 @@ export class AppComponent implements OnInit {
     {
       title: 'Inicio',
       url: '/home',
-      icon: 'mail'
+      icon: 'home'
     },
     {
       title: 'Log-in',
       url: '/login',
-      icon: 'mail'
+      icon: 'log-in'
     },
     {
       title: 'Favoritos',
       url: '/favorites',
-      icon: 'mail'
-    },
-    {
-      title: 'Ver mesa',
-      url: '/tables',
-      icon: 'mail'
-    },
+      icon: 'heart'
+    }
   ];
 
 
@@ -48,6 +43,10 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    if (localStorage.getItem('cart')) {
+    } else {
+      localStorage.setItem('cart', JSON.stringify({}));
+    } 
   }
 
   ngOnInit() {

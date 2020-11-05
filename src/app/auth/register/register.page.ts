@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../app/services/user.service';
+import { User } from '../../../app/models/user';
+import { NavController, LoadingController, AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
+  providers: [UserService]
 })
 export class RegisterPage implements OnInit {
-  public name;
-  public email;
-  public lastname;
-  public CIF;
-  public street;
-  public phone;
-  public CP;
-  public location;
-  public password;
+  public user: User;
   public password2;
+  public token;
   public validateStreet = false;
   public formattedaddress = " ";
+  public identity;
   options = {
     componentRestrictions: {
       country: ["ES"]
@@ -33,18 +31,79 @@ export class RegisterPage implements OnInit {
       if (this.getDistanciaMetros(address.geometry.location.lat(), address.geometry.location.lng(), 37.804516, -0.831246)) {
         this.formattedaddress = "Podemos repartir"
         this.validateStreet = true
-        this.street = address.formatted_address
+        this.user.calle = address.formatted_address
       } else {
         this.formattedaddress = "Lo sentimos no podemos repartir a esa dirección"
-        this.street = "";
+        this.user.calle = "";
         this.validateStreet = false
       }
     }
   }
 
-  constructor() { }
+  constructor(public navCtrl: NavController, private _userService: UserService, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController) { }
 
   ngOnInit() {
+    this.user = new User("", "", "", "", "", "", "", "", "");
+  }
+
+  async register() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      translucent: true,
+    });
+    await loading.present();
+    if (this.ifLogin) {
+      localStorage.clear();
+    }
+    if (this.user.password == this.password2) {
+      this._userService.register(this.user).subscribe(
+        async response => {
+          console.log(response);
+          if (response.message != "El usuario ya existe!!"){
+          // loguear al usuario y conseguir sus datos
+          this._userService.login(this.user).subscribe(
+            response => {
+              this.identity = response.user;
+              this.token = response.token;
+              localStorage.setItem('identity', JSON.stringify(this.identity));
+              localStorage.setItem('token', this.token);
+              this.loadingController.dismiss();
+              this.navCtrl.navigateForward('/home');
+            },
+            async error => {
+              console.error(error);
+
+              this.loadingController.dismiss();
+              this.navCtrl.navigateForward('/login');
+            }
+          );
+          }else {
+            this.loadingController.dismiss();
+            const toast = await this.toastController.create({
+              message: 'Esta cuenta ya existe',
+              duration: 2000,
+              color: 'danger'
+            });
+            toast.present();
+          }
+        }, async error => {
+          this.loadingController.dismiss();
+          const toast = await this.toastController.create({
+            message: 'Error al registrar su cuenta',
+            duration: 2000,
+            color: 'danger'
+          });
+          toast.present();
+        });
+    } else {
+      const toast = await this.toastController.create({
+        message: 'La contraseña no es la misma',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+      this.loadingController.dismiss();
+    }
   }
 
   getDistanciaMetros(lat1, lon1, lat2, lon2) {
@@ -62,6 +121,16 @@ export class RegisterPage implements OnInit {
       return true
     } else {
       return false
+    }
+  }
+
+  ifLogin() {
+    /* this._userService.ifGetIdentity(); */
+    let identity = JSON.parse(localStorage.getItem('identity'));
+    if (identity == null) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -1,9 +1,38 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+    <ion-icon slot="end" name="cart-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-searchbar [(ngModel)]="street" animated #q (keyup.enter)="search(q.value)"></ion-searchbar>
+  <ion-card *ngFor="let famili of families">
+        <img src="../../../assets/SALADO.jpg" />
+    <div class="card-title">{{famili.name | uppercase }}</div>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-row>
+      <ion-col>
+        <img src="../../../assets/mug.jpg" />
+      </ion-col>
+      <ion-col>
+        <ion-card-header>
+          <ion-card-title>Madison, WI</ion-card-title>
+        </ion-card-header>
+      </ion-col>
+      <ion-col>
+        <ion-button>Agregar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 
 </ion-content>

@@ -1,41 +1,60 @@
-<ion-header>
-  <ion-toolbar color="success">
-    <ion-title>Register</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Registrate</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="login">
   <ion-card padding class="login-box">
     <!--  <img src="../../assets/logo.jpg" alt="" class="if-logo">  -->
-    <form #registerForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <form #registerForm="ngForm" (ngSubmit)="register()" novalidate>
       <ion-item>
-      <input [(ngModel)]="email" #email="ngModel" placeholder="Email" name="email" type="email" class="fadeIn second"
-        required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
-      <span *ngIf="!email.valid && email.touched"> <br> El email es incorrecto</span>
-      <input type="text" id="nombre" class="fadeIn second" name="login" placeholder="Nombre" [(ngModel)]="name"
-        required />
-      <input type="text" id="apellidos" class="fadeIn second" name="login" placeholder="Apellidos" [(ngModel)]="lastname"
-        required />
-      <input type="text" id="cif" class="fadeIn second" name="login" placeholder="NIF" [(ngModel)]="CIF" required />
-      <input type="text" ngx-google-places-autocomplete [options]='options' [(ngModel)]="calle" name="location"
-        id="calle" class="fadeIn second" aria-describedby="direccionHelp" placeholder="Calle" (input)="AddressChange('input')"
-        (onAddressChange)="AddressChange($event)" required />
-      <input type="text" id="teléfono" class="fadeIn second" name="login" placeholder="Telefono" [(ngModel)]="telefono"
-        required />
-      <input type="text" id="cp" class="fadeIn second" name="login" placeholder="CP" [(ngModel)]="CP" required />
-      <input type="text" id="poblacion" class="fadeIn second" name="login" placeholder="Población"
-        [(ngModel)]="poblacion" required />
-      <input type="password" id="password" class="fadeIn second" name="login" placeholder="Contraseña"
-        [(ngModel)]="password" required />
-      <input type="password" id="password2" class="fadeIn second" name="login" placeholder="Repite la contraseña"
-        [(ngModel)]="password2" required />
+        <ion-input [(ngModel)]="user.email" #email="ngModel" placeholder="Email" name="email" type="email" required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"></ion-input>
+        <span *ngIf="!email.valid && email.touched"> <br> El email es incorrecto</span>
       </ion-item>
-
+      <ion-item>
+        <ion-input type="text" id="nombre" name="login" placeholder="Nombre" [(ngModel)]="user.name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" id="apellidos" name="login" placeholder="Apellidos" [(ngModel)]="user.lastname" required>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" id="cif" name="login" placeholder="NIF" [(ngModel)]="user.CIF" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" ngx-google-places-autocomplete [options]='options' [(ngModel)]="user.calle" name="location"
+          id="calle" aria-describedby="direccionHelp" placeholder="Calle" (input)="AddressChange('input')"
+          (onAddressChange)="AddressChange($event)" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" id="teléfono" name="login" placeholder="Telefono" [(ngModel)]="user.telefono" required>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" id="cp" name="login" placeholder="CP" [(ngModel)]="user.CP" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" id="poblacion" name="login" placeholder="Población" [(ngModel)]="user.poblacion" required>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="password" id="password" name="login" placeholder="Contraseña" [(ngModel)]="user.password" required>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="password" id="password2" name="login" placeholder="Repite la contraseña" [(ngModel)]="password2"
+          required></ion-input>
+      </ion-item>
       <ion-button type="submit" color="primary" class="login-register" block>
-        Register
+        Registrate
       </ion-button>
       <ion-button routerLink="../login" color="primary" class="login-register" block>
-        Login
+        ¿Estas ya registrado?
       </ion-button>
     </form>
   </ion-card>

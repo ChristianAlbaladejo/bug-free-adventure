@@ -1,5 +1,8 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,27 +10,27 @@
 <ion-content class="login" no-bounce>
   <ion-card padding class="login-box">
     <img src="../../assets/logo.PNG" alt="" class="if-logo">
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
       <ion-item>
 
-        <ion-input clearInput="false" (ngModel)="email" #email="ngModel" placeholder="Email" name="email"
+        <ion-input clearInput="false" [(ngModel)]="user.email" #email="ngModel" placeholder="Email" name="email"
           type="email" spellcheck="false" autocapitalize="off" class="code" required
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"></ion-input>
         <span *ngIf="!email.valid && email.touched">The email is incorrect</span>
       </ion-item>
 
       <ion-item>
-        <ion-input clearInput="false" (ngModel)="password" #password="ngModel" placeholder="Contraseña"
+        <ion-input clearInput="false" [(ngModel)]="user.password" #password="ngModel" placeholder="Contraseña"
           name="password" type="password" spellcheck="false" autocapitalize="off" class="code" required></ion-input>
         <span *ngIf="!email.valid && email.touched">Password is required</span>
       </ion-item>
 
       <ion-button type="submit" color="primary" class="login-button" block>
-        Login
+        Acceder
       </ion-button>
 
-      <ion-button [routerLink]="register" color="primary" class="login-register" block>
-        Register
+      <ion-button routerLink="/register" color="primary" class="login-register" block>
+        Registrate
       </ion-button>
     </form>
   </ion-card>
