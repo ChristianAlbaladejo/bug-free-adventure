@@ -130,4 +130,8 @@ export class ProductsPage implements OnInit {
     toast.present();
     this.navCtrl.navigateForward('/home');
   }
+
+  gotoCart(){
+    this.navCtrl.navigateForward('/cart');
+  }
 }

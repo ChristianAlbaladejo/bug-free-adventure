@@ -71,4 +71,8 @@ export class HomePage implements OnInit {
     this.load();
     event.target.complete();
   }
+
+  gotoCart() {
+    this.navCtrl.navigateForward('/cart');
+  }
 }

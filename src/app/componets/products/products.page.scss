@@ -15,5 +15,9 @@ ion-card {
 }
 
 ion-icon {
-    zoom: 1.7;
+    zoom: 1.2;
+}
+
+ion-toolbar {
+  --min-height: 50px;
 }

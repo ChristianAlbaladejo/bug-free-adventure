@@ -4,7 +4,10 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Inicio</ion-title>
-    <ion-icon slot="end" name="cart-outline"></ion-icon>
+    <ion-buttons slot="end" (click)="gotoCart()">
+      <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

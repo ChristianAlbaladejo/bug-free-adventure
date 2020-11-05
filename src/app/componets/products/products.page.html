@@ -5,7 +5,10 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{name}}</ion-title>
-    <ion-icon slot="end" name="cart-outline"></ion-icon>
+  <ion-buttons slot="end">
+    <ion-icon slot="icon-only" (click)="gotoCart()" name="cart-outline"></ion-icon>
+    <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
