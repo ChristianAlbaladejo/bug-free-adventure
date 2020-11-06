@@ -15,6 +15,7 @@ export class HomePage implements OnInit {
   public familyes;
   public search = "";
   public currentNumber = 0;
+  public product
   constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController) { }
 
   ngOnInit() {
@@ -63,6 +64,15 @@ export class HomePage implements OnInit {
     );
   }
 
+  ifLogin() {
+    let identity = JSON.parse(localStorage.getItem('identity'));
+    if (identity == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   goToFamili(name ,famili){
     this.navCtrl.navigateForward('/' + name + '/' + famili.toString());
   }
@@ -73,6 +83,70 @@ export class HomePage implements OnInit {
   }
 
   gotoCart() {
-    this.navCtrl.navigateForward('/cart');
+    if (this.ifLogin()) {
+      this.navCtrl.navigateForward('/login');
+    } else {
+      this.navCtrl.navigateForward('/cart');
+    }
   }
+
+  filter(e) {
+    if (this.search == "") {
+      this.load()
+    } else {
+      this._productsService.filter(e.target.value).subscribe(
+        (response) => {
+          console.log(response)
+          this.product = response;
+          console.log(this.product)
+          this.product.forEach(element => {
+            element['name'] = decodeURIComponent(element['name']);
+          });
+        },
+        (error) => {
+        }
+      );
+    }
+  }
+
+  async addToCart(p) {
+    console.log(p);
+    let flag = false;
+    let array = localStorage.getItem('cart');
+    console.log(array);
+
+    array = JSON.parse(array);
+    for (let i = 0; i < array.length; i++) {
+      if (array[i]["id"] == p.id) {
+        array[i]["quantity"] += p.quantity;
+        flag = true
+      }
+    }
+    if (flag) {
+      localStorage.setItem('cart', JSON.stringify(array));
+      console.log('yes');
+
+    } else {
+      console.log('no');
+      this.cart.push(p);
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
+    const toast = await this.toastController.create({
+      message: 'Producto añadido',
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
+    this.navCtrl.navigateForward('/home');
+  }
+
+ /*  incrementQty(index: number) {
+    this.product[index].quantity += 1;
+  }
+
+  decrementQty(index: number) {
+    if (this.product[index].quantity > 1) {
+      this.product[index].quantity -= 1;
+    }
+  } */
 }

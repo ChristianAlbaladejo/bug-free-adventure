@@ -87,8 +87,8 @@ export class ProductsPage implements OnInit {
     } else {
       this._productsService.filterByName(e.target.value, this.id).subscribe(
         (response) => {
-          
-          
+
+
           this.product = response;
           this.product.forEach(element => {
             element['name'] = decodeURIComponent(element['name']);
@@ -99,13 +99,13 @@ export class ProductsPage implements OnInit {
       );
     }
   }
-  
+
   async addToCart(p) {
     console.log(p);
     let flag = false;
     let array = localStorage.getItem('cart');
     console.log(array);
-    
+
     array = JSON.parse(array);
     for (let i = 0; i < array.length; i++) {
       if (array[i]["id"] == p.id) {
@@ -116,7 +116,7 @@ export class ProductsPage implements OnInit {
     if (flag) {
       localStorage.setItem('cart', JSON.stringify(array));
       console.log('yes');
-      
+
     } else {
       console.log('no');
       this.cart.push(p);
@@ -131,7 +131,25 @@ export class ProductsPage implements OnInit {
     this.navCtrl.navigateForward('/home');
   }
 
-  gotoCart(){
+  ifLogin() {
+    let identity = JSON.parse(localStorage.getItem('identity'));
+    if (identity == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  gotoCart() {
+    if (this.ifLogin()) {
+      this.navCtrl.navigateForward('/login');
+    } else {
+      this.navCtrl.navigateForward('/cart');
+    }
+  }
+  
+  gotoLogin() {
     this.navCtrl.navigateForward('/cart');
   }
+
 }

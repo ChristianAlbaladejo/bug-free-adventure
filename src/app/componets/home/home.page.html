@@ -5,6 +5,7 @@
     </ion-buttons>
     <ion-title>Inicio</ion-title>
     <ion-buttons slot="end" (click)="gotoCart()">
+      <ion-icon slot="end" *ngIf="ifLogin()" (click)="gotoLogin()" name="person-outline"></ion-icon>
       <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
       <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
     </ion-buttons>
@@ -15,27 +16,38 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-searchbar [(ngModel)]="street" animated #q (keyup.enter)="search(q.value)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="search" animated (ionChange)="filter($event)"></ion-searchbar>
+  <div *ngIf="search==''">
   <ion-card *ngFor="let family of familyes" (click)="goToFamili(family.name ,family.id)">
         <img src="../../../assets/SALADO.jpg" />
     <div class="card-title">{{family.name | uppercase }}</div>
   </ion-card>
+  </div>
 
-
-  <ion-card>
-    <ion-row>
-      <ion-col>
-        <img src="../../../assets/mug.jpg" />
-      </ion-col>
-      <ion-col>
-        <ion-card-header>
-          <ion-card-title>Madison, WI</ion-card-title>
-        </ion-card-header>
-      </ion-col>
-      <ion-col>
-        <ion-button>Agregar</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-card>
-
+    <div *ngIf="search!=''">
+      <ion-card *ngFor="let p of product; index as i">
+        <ion-row>
+          <ion-col>
+            <img src="../../../assets/mug.jpg" />
+          </ion-col>
+          <ion-col size="9">
+            <h4>
+              <ion-card-title>{{p.name}}</ion-card-title>
+            </h4>
+          </ion-col>
+      
+            <!-- <ion-item class="picker" lines="none">
+              <ion-icon color="success" name="remove-circle" (click)="p.quantity = p.quantity - 1" item-right></ion-icon>
+              <ion-input type="number" min="1" [value]="p.quantity" [(ngModel)]="p.quantity"></ion-input>
+              <ion-icon color="danger" name="add-circle" (click)="p.quantity = p.quantity + 1" item-right></ion-icon>
+            </ion-item> -->
+       
+        </ion-row>
+        <ion-row>
+          <ion-col class="center">
+            <ion-button (click)="addToCart(p)">Ver mas</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
 </ion-content>

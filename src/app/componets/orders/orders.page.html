@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tus pedidos</ion-title>
+    <ion-buttons slot="end" (click)="gotoCart()">
+      <ion-icon slot="end" *ngIf="ifLogin()" (click)="gotoLogin()" name="person-outline"></ion-icon>
+      <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="orders">
+    <ion-item *ngFor="let p of orders; let i = index;">
+      <ion-label>
+        <h2>Pedido del dia: {{p.date }}</h2>
+        <p *ngFor="let l of p.orderLines">{{l.name}} x{{l.quantity}}</p>
+        <h3>{{p.grossAmount | number : '1.2-2'}} €</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

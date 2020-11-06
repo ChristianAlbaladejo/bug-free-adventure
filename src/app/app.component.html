@@ -4,12 +4,41 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>Restaurante</ion-list-header>
-     <!--      <ion-note>Usuario</ion-note> -->
+          <!--      <ion-note>Usuario</ion-note> -->
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
+              detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false" *ngIf="!ifLogin()">
+            <ion-item routerDirection="root" routerLink="/favorites" lines="none" detail="false"
+              [class.selected]="selectedIndex == i">
+              <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
+              <ion-label>Favoritos</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false" *ngIf="!ifLogin()">
+            <ion-item routerDirection="root" routerLink="/orders" lines="none" detail="false"
+              [class.selected]="selectedIndex == i">
+              <ion-icon  slot="start" name="file-tray-full-outline"></ion-icon>
+              <ion-label>Tus pedidos</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false" *ngIf="ifLogin()">
+            <ion-item routerDirection="root"  routerLink="/login" lines="none" detail="false"
+              [class.selected]="selectedIndex == i">
+              <ion-icon  slot="start" name="log-in-outline"></ion-icon>
+              <ion-label>Iniciar sesión</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false" *ngIf="!ifLogin()">
+            <ion-item (click)="logout()" lines="none" detail="false"
+              [class.selected]="selectedIndex == i">
+              <ion-icon  slot="start" name="log-out-outline"></ion-icon>
+              <ion-label>Cerrar sesión</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

@@ -12,10 +12,10 @@
   <ion-list>
       <ion-item class="lista" *ngFor="let p of products; index as i">
         <ion-row>
-      <ion-col>
+      <ion-col size="5">
         <ion-label>
           <h2 text-wrap>{{p.name}}</h2>
-          <p>$ {{p.costPrice }}</p>
+          <p>{{p.costPrice }} €</p>
         </ion-label>
       </ion-col>
       <ion-col>
@@ -37,7 +37,7 @@
         <strong>Total: </strong>
         <span>{{finalValue}} €</span>
       </ion-label>
-      <ion-button item-end color="danger" (click)="finalizarCompra()" icon-left>
+      <ion-button item-end color="danger" routerLink="/purchase-payment" (click)="purchase()" icon-left>
         <ion-icon name="cart"></ion-icon>
         Comprar
       </ion-button>

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController, LoadingController, AlertController, ToastController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +15,9 @@ export class CartPage implements OnInit {
   public family = [];
   public shippingType;
   public shipping;
-  constructor() { 
+  handler: any = null;
+
+  constructor(public navCtrl: NavController, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -32,10 +38,10 @@ export class CartPage implements OnInit {
     let array = localStorage.getItem('cart');
     this.products = JSON.parse(array);
     console.log(this.products);
-    
+
     for (let i = 0; i < this.products.length; i++) {
       var perProduct = this.products[i]["costPrice"] * this.products[i]["quantity"];
-      this.products[i]['name'] = decodeURIComponent(escape(this.products[i]['name']));
+      this.products[i]['name'] = decodeURIComponent(this.products[i]['name']);
       this.family.forEach(element => {
         if (element.id == this.products[i].familyId) {
           familyname = element.name
@@ -82,6 +88,48 @@ export class CartPage implements OnInit {
     localStorage.setItem('cart', JSON.stringify(this.products));
   }
 
-  
+  purchase() {
+    this.buy();
+  }
 
+  ionViewWillLoad(){
+    this.load();
+  }
+
+   loadStripe() {
+    if (!window.document.getElementById('stripe-script')) {
+      var s = window.document.createElement("script");
+      s.id = "stripe-script";
+      s.type = "text/javascript";
+      s.src = "https://checkout.stripe.com/checkout.js";
+       window.document.body.appendChild(s);
+      }
+    }
+
+  buy() {
+   /*  var handler = (<any>window).StripeCheckout.configure({
+      key: environment.STRIPEPK,
+      locale: 'auto',
+      token: (token: any) => {
+        // You can access the token ID with `token.id`.
+        // Get the token ID to your server-side code for use.
+        var body = {
+          'stripeToken': token.id,
+          'amount': this.finalValue * 100
+        };
+        let headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        });
+      }
+    });
+
+    handler.open({
+      name: 'Restaurante',
+      description: '',
+      amount: this.finalValue * 100
+    }); */
+   
+
+  }
 }

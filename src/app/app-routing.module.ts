@@ -42,6 +42,22 @@ const routes: Routes = [
   {
     path: 'cart',
     loadChildren: () => import('./componets/cart/cart.module').then( m => m.CartPageModule)
+  },
+  {
+    path: 'purchase',
+    loadChildren: () => import('./componets/purchase/purchase.module').then( m => m.PurchasePageModule)
+  },
+  {
+    path: 'purchase-payment',
+    loadChildren: () => import('./componets/purchase-payment/purchase-payment.module').then( m => m.PurchasePaymentPageModule)
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('./componets/orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  {
+    path: 'product/:id',
+    loadChildren: () => import('./componets/product/product.module').then( m => m.ProductPageModule)
   }
 ];
 

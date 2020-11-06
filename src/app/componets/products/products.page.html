@@ -5,10 +5,11 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{name}}</ion-title>
-  <ion-buttons slot="end">
-    <ion-icon slot="icon-only" (click)="gotoCart()" name="cart-outline"></ion-icon>
-    <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
-  </ion-buttons>
+    <ion-buttons slot="end" (click)="gotoCart()">
+      <ion-icon slot="end" *ngIf="ifLogin()" (click)="gotoLogin()" name="person-outline"></ion-icon>
+      <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -19,25 +20,25 @@
   <ion-searchbar [(ngModel)]="search" (ionChange)="filter($event)" animated></ion-searchbar>
 
   <ion-card *ngFor="let p of product; index as i">
-    <img src="../../../assets/mug.jpg" />
     <ion-row>
       <ion-col>
-        
-          <h4><ion-card-title>{{p.name}}</ion-card-title></h4>
-        
+        <img src="../../../assets/mug.jpg" />
       </ion-col>
-      <ion-col>
-        <ion-item class="picker">
+      <ion-col size="9">
+        <h4>
+          <ion-card-title>{{p.name}}</ion-card-title>
+        </h4>
+      
+        <!-- <ion-item class="picker" lines="none">
           <ion-icon color="success" name="remove-circle" (click)="decrementQty(i)" item-right></ion-icon>
-          <ion-input type="number" min="1" [value]="p.quantity" [(ngModel)]="p.quantity"></ion-input>
+          <ion-input type="number"  min="1" [value]="p.quantity" [(ngModel)]="p.quantity"></ion-input>
           <ion-icon color="danger" name="add-circle" (click)="incrementQty(i)" item-right></ion-icon>
-        </ion-item>
-
+        </ion-item> -->
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="center">
-        <ion-button (click)="addToCart(p)">Agregar</ion-button>
+        <ion-button (click)="addToCart(p)">Ver mas</ion-button>
       </ion-col>
     </ion-row>
   </ion-card>

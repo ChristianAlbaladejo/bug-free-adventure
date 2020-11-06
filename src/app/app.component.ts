@@ -17,16 +17,16 @@ export class AppComponent implements OnInit {
       url: '/home',
       icon: 'home'
     },
-    {
+   /*  {
       title: 'Log-in',
       url: '/login',
       icon: 'log-in'
-    },
-    {
+    } */
+   /*  {
       title: 'Favoritos',
       url: '/favorites',
       icon: 'heart'
-    }
+    } */
   ];
 
 
@@ -47,6 +47,20 @@ export class AppComponent implements OnInit {
     } else {
       localStorage.setItem('cart', JSON.stringify({}));
     } 
+  }
+
+  ifLogin() {
+    let identity = JSON.parse(localStorage.getItem('identity'));
+    if (identity == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('identity');
+    localStorage.removeItem('token');
   }
 
   ngOnInit() {
