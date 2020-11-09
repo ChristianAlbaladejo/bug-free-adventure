@@ -35,18 +35,13 @@
               <ion-card-title>{{p.name}}</ion-card-title>
             </h4>
           </ion-col>
-      
-            <!-- <ion-item class="picker" lines="none">
-              <ion-icon color="success" name="remove-circle" (click)="p.quantity = p.quantity - 1" item-right></ion-icon>
-              <ion-input type="number" min="1" [value]="p.quantity" [(ngModel)]="p.quantity"></ion-input>
-              <ion-icon color="danger" name="add-circle" (click)="p.quantity = p.quantity + 1" item-right></ion-icon>
-            </ion-item> -->
-       
         </ion-row>
         <ion-row>
+          <ion-col></ion-col>
           <ion-col class="center">
-            <ion-button (click)="addToCart(p)">Ver mas</ion-button>
+            <ion-button (click)="loadProduct(p)">Ver mas</ion-button>
           </ion-col>
+          <ion-col  class="heart"><ion-icon name="heart-outline"></ion-icon></ion-col>
         </ion-row>
       </ion-card>
     </div>

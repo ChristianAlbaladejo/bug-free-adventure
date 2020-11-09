@@ -1,12 +1,12 @@
 .card-title {
-          position: absolute;
-          top: 36%;
-          font-size: 2.0em;
-          width: 100%;
-          margin-left: 1rem;
-          font-weight: bold;
-          color: #fff;
-        }
+    position: absolute;
+    top: 36%;
+    font-size: 2em;
+    width: 100%;
+    margin-left: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
 
 ion-icon {
     zoom: 1.2;
@@ -20,6 +20,11 @@ ion-icon {
     text-align: center;
 }
 
+.heart {
+    text-align: center;
+    zoom: 2;
+}
+
 img {
     border-radius: 5%;
 }
@@ -31,5 +36,3 @@ ion-card {
 .picker {
     margin-top: 1rem;
 }
-
-

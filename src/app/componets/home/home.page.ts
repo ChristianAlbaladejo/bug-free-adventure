@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
-import { NavController, LoadingController, AlertController, ToastController  } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ToastController, ModalController  } from '@ionic/angular';
+import { ProductPage } from '../product/product.page'
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,20 +15,20 @@ import { NavController, LoadingController, AlertController, ToastController  } f
 export class HomePage implements OnInit {
   public user;
   public cart = [];
+  public productLike = [];
   public familyes;
   public search = "";
   public currentNumber = 0;
   public product
-  constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController) { }
+  constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController, private http: HttpClient) { }
 
   ngOnInit() {
     this.user = localStorage.getItem("identity")
     this.user = JSON.parse(this.user);
     let array = localStorage.getItem('cart');
     array = JSON.parse(array);
+    this.cart = []
     for (let i = 0; i < array.length; i++) {
-      console.log(i);
-      
       this.cart.push(array[i]);
     }
     this.load();
@@ -40,9 +43,6 @@ export class HomePage implements OnInit {
       (response) => {
         console.log(response);
         this.familyes = response;
-        /* for (let i = 0; i < response.length; i++) {
-          this.families.sort((a, b) => parseFloat(b.showInPos) - parseFloat(a.showInPos));
-        } */
         this.loadingController.dismiss();
       },
       async (error) => {
@@ -144,13 +144,35 @@ export class HomePage implements OnInit {
     this.navCtrl.navigateForward('/home');
   }
 
- /*  incrementQty(index: number) {
-    this.product[index].quantity += 1;
+  async loadProduct(p) {
+    const modal = await this.modalController.create({
+      component: ProductPage,
+      swipeToClose: true,
+      componentProps: { product: p }
+    });
+    modal.onDidDismiss().then((data) => {
+      this.ngOnInit();
+    });
+    return await modal.present();
   }
 
-  decrementQty(index: number) {
-    if (this.product[index].quantity > 1) {
-      this.product[index].quantity -= 1;
-    }
-  } */
+  addFav(p) {
+    this.productLike.push({ "productId": p.id, "userId": this.user[0].id })
+    var body = {
+      "productId": p.id,
+      "userId": this.user[0].id
+    };
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("token")
+    });
+    this.http
+      .post(environment.APIURL + '/addFavorite/',
+        body, { headers: headers })
+      .subscribe(data => {
+      }, error => {
+        console.log(error);
+      }
+      );
+  }
 }

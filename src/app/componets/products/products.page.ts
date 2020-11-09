@@ -39,7 +39,6 @@ export class ProductsPage implements OnInit {
     for (let i = 0; i < array.length; i++) {
       this.cart.push(array[i]);
     }
-    
     this._productsService.getProductsById(this.id).subscribe(
       (response) => {
         console.log(response);
@@ -89,8 +88,6 @@ export class ProductsPage implements OnInit {
     } else {
       this._productsService.filterByName(e.target.value, this.id).subscribe(
         (response) => {
-
-
           this.product = response;
           this.product.forEach(element => {
             element['name'] = decodeURIComponent(element['name']);
