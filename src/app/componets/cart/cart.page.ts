@@ -15,6 +15,8 @@ export class CartPage implements OnInit {
   public family = [];
   public shippingType;
   public shipping;
+  public user;
+  public orderNotes;
   handler: any = null;
 
   constructor(public navCtrl: NavController, private http: HttpClient) {
@@ -34,6 +36,8 @@ export class CartPage implements OnInit {
   }
 
   load() {
+    this.user = localStorage.getItem("identity")
+    this.user = JSON.parse(this.user);
     let familyname = '';
     let array = localStorage.getItem('cart');
     this.products = JSON.parse(array);
@@ -107,28 +111,35 @@ export class CartPage implements OnInit {
     }
 
   buy() {
-   /*  var handler = (<any>window).StripeCheckout.configure({
-      key: environment.STRIPEPK,
-      locale: 'auto',
-      token: (token: any) => {
-        // You can access the token ID with `token.id`.
-        // Get the token ID to your server-side code for use.
-        var body = {
-          'stripeToken': token.id,
-          'amount': this.finalValue * 100
-        };
-        let headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        });
-      }
+  /*   var deliveryDate = new Date();
+    let orderlines = JSON.stringify(this.products)
+    let re = /\"/gi;
+    let result = orderlines.replace(re, "'");
+    var body = {
+      'orderLines': result,
+      'cashDiscount': 0,
+      'grossAmount': this.total,
+      'surchargeRate': 0,
+      'netAmount': 0,
+      'vatAmount': 0,
+      'surchargeAmount': 0,
+      'sended': true,
+      'userId': this.user[0].id,
+      'email': this.user[0].email,
+      'deliveryDate': deliveryDate.toISOString(),
+      'orderNotes': this.orderNotes,
+      'chargesType': 0
+    };
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("token")
     });
-
-    handler.open({
-      name: 'Restaurante',
-      description: '',
-      amount: this.finalValue * 100
-    }); */
+    this.http
+      .post('https://panesandco.herokuapp.com/order',
+        body, { headers: headers })
+      .subscribe(data => {
+      }, error => {
+      }); */
    
 
   }

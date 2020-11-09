@@ -35,7 +35,7 @@
     <ion-item no-padding>
       <ion-label padding-left>
         <strong>Total: </strong>
-        <span>{{finalValue}} €</span>
+        <span>{{finalValue | number:'1.2'}} €</span>
       </ion-label>
       <ion-button item-end color="danger" routerLink="/purchase-payment" (click)="purchase()" icon-left>
         <ion-icon name="cart"></ion-icon>

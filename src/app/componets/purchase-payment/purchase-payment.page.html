@@ -10,53 +10,55 @@
 
 
 <ion-content>
-  <ion-toolbar>
-    <ion-title>Dirección</ion-title>
-  </ion-toolbar>
-  <ion-item>
-    <ion-label position="floating">Calle</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Población</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">CP</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Teléfono</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Fecha de reparto</ion-label>
-    <ion-datetime displayFormat="MMM DD, YYYY HH:mm" minuteValues="00,15, 30, 45" [min]="myDate" [(ngModel)]="myDate"> </ion-datetime>
-  </ion-item>
+  <div *ngIf="user">
+    <ion-toolbar>
+      <ion-title>Dirección</ion-title>
+    </ion-toolbar>
+    <ion-item>
+      <ion-label position="floating" >Calle</ion-label>
+      <ion-input type="text" [(ngModel)]="user[0].calle"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >Población</ion-label>
+      <ion-input type="text" [(ngModel)]="user[0].poblacion"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >CP</ion-label>
+      <ion-input type="number" [(ngModel)]="user[0].CP"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" >Teléfono</ion-label>
+      <ion-input type="tel" [(ngModel)]="user[0].telefono"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fecha de reparto</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY HH:mm" minuteValues="00,15, 30, 45" [min]="myDate" [(ngModel)]="myDate">
+      </ion-datetime>
+    </ion-item>
 
-  <ion-toolbar>
-    <ion-title>Forma de pago</ion-title>
-  </ion-toolbar>
-  <ion-list>
-    <ion-radio-group value="efectivo">
-      <ion-item>
-        <ion-label>Efectivo</ion-label>
-        <ion-radio slot="start" value="efectivo"></ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-label>Tarjeta</ion-label>
-        <ion-radio slot="start" value="tarjeta"></ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ion-list>
-  <ion-row>
-    <ion-col>
-    </ion-col>
-    <ion-col>
-      <ion-button>
-        Realizar pedido
-      </ion-button>
-    </ion-col>
-
-  </ion-row>
+    <ion-toolbar>
+      <ion-title>Forma de pago</ion-title>
+    </ion-toolbar>
+    <ion-list>
+      <ion-radio-group value="efectivo" [(ngModel)]="chargesType">
+        <ion-item>
+          <ion-label>Efectivo</ion-label>
+          <ion-radio slot="start" value="efectivo"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Tarjeta</ion-label>
+          <ion-radio slot="start" value="tarjeta"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="buy()">
+          Realizar pedido
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>

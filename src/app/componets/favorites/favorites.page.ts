@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController,  } from '@ionic/angular';
+import { ProductPage } from '../product/product.page'
 
 @Component({
   selector: 'app-favorites',
@@ -13,7 +14,7 @@ export class FavoritesPage implements OnInit {
   public cart = []
   public user;
   public product = [];
-  constructor(public _productsService: ProductsService, public navCtrl: NavController) { }
+  constructor(public _productsService: ProductsService, public navCtrl: NavController, public modalController: ModalController) { }
 
   ngOnInit() {
     this.user = localStorage.getItem("identity")
@@ -44,9 +45,16 @@ export class FavoritesPage implements OnInit {
     this.navCtrl.navigateForward('/cart')
   }
 
-  loadProduct(p)  {
-    console.log(p);
-    
+  async loadProduct(p)  {
+    const modal = await this.modalController.create({
+      component: ProductPage,
+      swipeToClose: true,
+      componentProps: { product: p }
+    });
+    modal.onDidDismiss().then((data) => {
+      this.ngOnInit();
+    });
+    return await modal.present();
   }
 
   ifLogin() {
