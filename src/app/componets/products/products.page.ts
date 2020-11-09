@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, LoadingController, AlertController, ToastController } from '@ionic/angular';
-
+import { NavController, LoadingController, AlertController, ToastController, ModalController  } from '@ionic/angular';
+import  { ProductPage } from '../product/product.page'
 @Component({
   selector: 'app-products',
   templateUrl: './products.page.html',
@@ -19,16 +19,11 @@ export class ProductsPage implements OnInit {
   public name;
   search = '';
 
-  constructor(private _productsService: ProductsService, private activatedRoute: ActivatedRoute, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController) { }
+  constructor(private _productsService: ProductsService, private activatedRoute: ActivatedRoute, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.name = this.activatedRoute.snapshot.paramMap.get('family');
-    let array = localStorage.getItem('cart');
-    array = JSON.parse(array);
-    for (let i = 0; i < array.length; i++) {
-      this.cart.push(array[i]);
-    }
     this.loadProducts();
   }
 
@@ -38,6 +33,13 @@ export class ProductsPage implements OnInit {
       translucent: true,
     });
     await loading.present();
+    this.cart = []
+    let array = localStorage.getItem('cart');
+    array = JSON.parse(array);
+    for (let i = 0; i < array.length; i++) {
+      this.cart.push(array[i]);
+    }
+    
     this._productsService.getProductsById(this.id).subscribe(
       (response) => {
         console.log(response);
@@ -100,35 +102,16 @@ export class ProductsPage implements OnInit {
     }
   }
 
-  async addToCart(p) {
-    console.log(p);
-    let flag = false;
-    let array = localStorage.getItem('cart');
-    console.log(array);
-
-    array = JSON.parse(array);
-    for (let i = 0; i < array.length; i++) {
-      if (array[i]["id"] == p.id) {
-        array[i]["quantity"] += p.quantity;
-        flag = true
-      }
-    }
-    if (flag) {
-      localStorage.setItem('cart', JSON.stringify(array));
-      console.log('yes');
-
-    } else {
-      console.log('no');
-      this.cart.push(p);
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
-    const toast = await this.toastController.create({
-      message: 'Producto añadido',
-      duration: 2000,
-      color: 'success'
+  async loadProduct(p) {
+    const modal = await this.modalController.create({
+      component: ProductPage,
+      swipeToClose: true,
+      componentProps: { product: p}
     });
-    toast.present();
-    this.navCtrl.navigateForward('/home');
+    modal.onDidDismiss().then((data) => {
+      this.ngOnInit();
+    });
+    return await modal.present();
   }
 
   ifLogin() {

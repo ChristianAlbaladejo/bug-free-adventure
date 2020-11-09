@@ -27,7 +27,7 @@
         <ion-input type="text" id="cif" name="login" placeholder="NIF" [(ngModel)]="user.CIF" required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" ngx-google-places-autocomplete [options]='options' [(ngModel)]="user.calle" name="location"
+        <ion-input type="text" [(ngModel)]="user.calle" name="location"
           id="calle" aria-describedby="direccionHelp" placeholder="Calle" (input)="AddressChange('input')"
           (onAddressChange)="AddressChange($event)" required></ion-input>
       </ion-item>

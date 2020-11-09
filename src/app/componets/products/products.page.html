@@ -8,7 +8,7 @@
     <ion-buttons slot="end" (click)="gotoCart()">
       <ion-icon slot="end" *ngIf="ifLogin()" (click)="gotoLogin()" name="person-outline"></ion-icon>
       <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
-      <ion-badge color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
+      <ion-badge *ngIf="cart" color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}</ion-badge>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -38,7 +38,7 @@
     </ion-row>
     <ion-row>
       <ion-col class="center">
-        <ion-button (click)="addToCart(p)">Ver mas</ion-button>
+        <ion-button (click)="loadProduct(p)">Ver mas</ion-button>
       </ion-col>
     </ion-row>
   </ion-card>

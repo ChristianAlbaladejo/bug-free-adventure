@@ -1,9 +1,54 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>product</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="dark" (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{product.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-card>
+    <h3>
+      <ion-card-title>{{product.name}}</ion-card-title>
+    </h3>
+    <img src="../../../assets/mug.jpg" />
+    <ion-row>
+      <ion-col>
+       <h2 class="price"> {{product.costPrice}} € </h2>
+      </ion-col>
+      <ion-col>
+        <ion-item class="picker" lines="none">
+          <ion-icon color="success" name="remove-circle" (click)="product.quantity = product.quantity - 1" item-right>
+          </ion-icon>
+          <ion-input type="number" min="1" [value]="product.quantity" [(ngModel)]="product.quantity"></ion-input>
+          <ion-icon color="danger" name="add-circle" (click)="product.quantity = product.quantity + 1" item-right>
+          </ion-icon>
+        </ion-item>
+      </ion-col>
+      <ion-col class="button">
+        <ion-button (click)="addToCart()">
+          Añadir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-item lines="none" class="preparation-notes">
+      <ion-label position="floating">Notas de preparación</ion-label>
+      <ion-textarea></ion-textarea>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+       <p> {{product.description}} </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-icon color="success" class="share" name="logo-whatsapp"></ion-icon>
+        <ion-icon color="primary" class="share" name="logo-facebook"></ion-icon>
+        <ion-icon color="secondary" class="share" name="logo-twitter"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 </ion-content>

@@ -1,9 +1,35 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>favorites</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favoritos</ion-title>
+    <ion-buttons slot="end" (click)="gotoCart()">
+      <ion-icon slot="end" *ngIf="ifLogin()" (click)="gotoLogin()" name="person-outline"></ion-icon>
+      <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      <ion-badge *ngIf="cart" color="danger" style="position: absolute; right: -5px; top: -3px;">{{cart?.length}}
+      </ion-badge>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-card *ngFor="let p of product; index as i">
+    <ion-row>
+      <ion-col>
+        <img src="../../../assets/mug.jpg" />
+      </ion-col>
+      <ion-col size="9">
+        <h4>
+          <ion-card-title>{{p.name}}</ion-card-title>
+        </h4>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="center">
+        <ion-button (click)="loadProduct(p)">Ver mas</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 </ion-content>

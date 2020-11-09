@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
-import { NavController, LoadingController, AlertController  } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ToastController  } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   public search = "";
   public currentNumber = 0;
   public product
-  constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController) { }
+  constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController) { }
 
   ngOnInit() {
     this.user = localStorage.getItem("identity")
@@ -71,6 +71,10 @@ export class HomePage implements OnInit {
     } else {
       return false;
     }
+  }
+
+  gotoLogin() {
+    this.navCtrl.navigateForward('/login');
   }
 
   goToFamili(name ,famili){
