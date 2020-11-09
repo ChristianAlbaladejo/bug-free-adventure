@@ -15,9 +15,9 @@
 
 <ion-content>
   <ion-list *ngIf="orders">
-    <ion-item *ngFor="let p of orders; let i = index;">
+    <ion-item *ngFor="let p of orders; let i = index;" (click)="tab(p.orderLines)">
       <ion-label>
-        <h2>Pedido del dia: {{p.date }}</h2>
+        <h2>Pedido del dia: {{ p.date }}</h2>
         <p *ngFor="let l of p.orderLines">{{l.name}} x{{l.quantity}}</p>
         <h3>{{p.grossAmount | number : '1.2-2'}} €</h3>
       </ion-label>

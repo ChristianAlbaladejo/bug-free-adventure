@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { NavController, LoadingController, AlertController, ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-purchase-payment',
   templateUrl: './purchase-payment.page.html',
@@ -17,7 +17,7 @@ export class PurchasePaymentPage implements OnInit {
   public orderNotes;
   public chargesType = "tarjeta"
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public navCtrl: NavController) { }
 
   ngOnInit() {
     this.load();
@@ -79,6 +79,9 @@ export class PurchasePaymentPage implements OnInit {
       .post('https://panesandco.herokuapp.com/order',
         body, { headers: headers })
       .subscribe(data => {
+        localStorage.removeItem('cart');
+        localStorage.setItem('cart', JSON.stringify({}));
+        this.navCtrl.navigateRoot('/home')
       }, error => {
       });
   }

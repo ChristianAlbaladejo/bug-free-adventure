@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
-import { NavController, LoadingController, AlertController, ToastController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ToastController, ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-orders',
@@ -12,13 +12,19 @@ export class OrdersPage implements OnInit {
   public orders = [];
   public user;
   public cart = [];
-  constructor(private _productsService: ProductsService, public navCtrl: NavController) {
+  constructor(private _productsService: ProductsService, public navCtrl: NavController, public actionSheetController: ActionSheetController, public toastController: ToastController) {
     this.user = localStorage.getItem("identity")
     this.user = JSON.parse(this.user);
-   }
+  }
 
   ngOnInit() {
-    this.load()
+    this.load();
+    this.cart = []
+    let array = localStorage.getItem('cart');
+    array = JSON.parse(array);
+    for (let i = 0; i < array.length; i++) {
+      this.cart.push(array[i]);
+    }
   }
 
   load() {
@@ -31,13 +37,12 @@ export class OrdersPage implements OnInit {
         this.orders[i].orderLines = JSON.parse(this.orders[i].orderLines);
       }
       this.orders = this.orders.reverse();
-      console.log(this.orders)
     }, error => {
       console.log(error);
     })
   }
 
-  addToCart(p) {
+  async addToCart(p) {
     console.log(p.length)
     let flag = false;
     let array: any[] = []
@@ -54,7 +59,6 @@ export class OrdersPage implements OnInit {
         }
       }
     }
-
     if (flag) {
       localStorage.setItem('cart', JSON.stringify(array));
     } else {
@@ -63,6 +67,14 @@ export class OrdersPage implements OnInit {
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
     }
+    this.ngOnInit()
+    const toast = await this.toastController.create({
+      message: 'Pedido añadido',
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
+    this.navCtrl.navigateForward('/home');
   }
 
   ifLogin() {
@@ -80,6 +92,27 @@ export class OrdersPage implements OnInit {
     } else {
       this.navCtrl.navigateForward('/cart');
     }
+  }
+
+  async tab(p) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Realizar pedido',
+      buttons: [{
+        text: 'repetir pedido',
+        icon: 'repeat-outline',
+        handler: () => {
+          this.addToCart(p);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   gotoLogin() {
