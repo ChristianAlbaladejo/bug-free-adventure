@@ -11,13 +11,22 @@
 
 <ion-content>
   <ion-card>
-    <h3>
-      <ion-card-title>{{product.name}}</ion-card-title>
-    </h3>
-    <img src="../../../assets/mug.jpg" />
+    
+      <ion-row>
+        <ion-col size="9">
+          <h3><ion-card-title>{{product.name}}</ion-card-title></h3>
+        </ion-col>
+        <ion-col class="heart">
+          <div *ngIf="productLike">
+            <ion-icon *ngIf="!checkFav(product)" name="heart-outline" (click)="addFav(product)"></ion-icon>
+            <ion-icon *ngIf="checkFav(product)" color="danger" name="heart" (click)="deleteFav(product)"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+        <img src="../../../assets/mug.jpg" />
     <ion-row>
       <ion-col>
-       <h2 class="price"> {{product.costPrice}} € </h2>
+        <h2 class="price"> {{product.costPrice}} €</h2>
       </ion-col>
       <ion-col>
         <ion-item class="picker" lines="none">
@@ -34,15 +43,15 @@
         </ion-button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col class="description">
+        <p> {{product.description}} </p>
+      </ion-col>
+    </ion-row>
     <ion-item lines="none" class="preparation-notes">
       <ion-label position="floating">Notas de preparación</ion-label>
       <ion-textarea></ion-textarea>
     </ion-item>
-    <ion-row>
-      <ion-col>
-       <p> {{product.description}} </p>
-      </ion-col>
-    </ion-row>
     <ion-row>
       <ion-col>
         <ion-icon color="success" class="share" name="logo-whatsapp"></ion-icon>

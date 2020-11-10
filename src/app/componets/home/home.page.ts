@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
-import { NavController, LoadingController, AlertController, ToastController, ModalController  } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ToastController, ModalController } from '@ionic/angular';
 import { ProductPage } from '../product/product.page'
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
           header: 'Error!',
           message: 'Parece que tenemos problemas 🥴',
           buttons: [
-             {
+            {
               text: 'Okay',
               handler: () => {
                 this.load();
@@ -77,7 +77,7 @@ export class HomePage implements OnInit {
     this.navCtrl.navigateForward('/login');
   }
 
-  goToFamili(name ,famili){
+  goToFamili(name, famili) {
     this.navCtrl.navigateForward('/' + name + '/' + famili.toString());
   }
 
@@ -106,6 +106,17 @@ export class HomePage implements OnInit {
           this.product.forEach(element => {
             element['name'] = decodeURIComponent(element['name']);
           });
+          if (this.user) {
+            this._productsService.getFav(this.user[0].id).subscribe(
+            (response) => {
+              this.productLike = response;
+              this.productLike.forEach(element => {
+                element['name'] = decodeURIComponent(element['name']);
+              });
+            }
+          ), error => {
+          }
+          }
         },
         (error) => {
         }
@@ -156,6 +167,15 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
+  checkFav(p) {
+    for (let x = 0; x < this.productLike.length; x++) {
+      if (p.id == this.productLike[x].productId) {
+        return true;
+      }
+    }
+    return false
+  }
+
   addFav(p) {
     this.productLike.push({ "productId": p.id, "userId": this.user[0].id })
     var body = {
@@ -174,5 +194,17 @@ export class HomePage implements OnInit {
         console.log(error);
       }
       );
+  }
+
+  deleteFav(p) {
+    for (let i = 0; i < this.productLike.length; i++) {
+      if (p.id == this.productLike[i].productId) {
+        this.productLike.splice(i, 1)
+      }
+    }
+    this._productsService.deleteFav(p.id, this.user[0].id).subscribe((response) => {
+    }, error => {
+      console.log(error);
+    });
   }
 }

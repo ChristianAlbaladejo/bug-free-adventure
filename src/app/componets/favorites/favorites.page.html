@@ -15,21 +15,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let p of product; index as i">
-    <ion-row>
-      <ion-col>
-        <img src="../../../assets/mug.jpg" />
-      </ion-col>
-      <ion-col size="9">
-        <h4>
-          <ion-card-title>{{p.name}}</ion-card-title>
-        </h4>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="center">
-        <ion-button (click)="loadProduct(p)">Ver mas</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+<ion-card *ngFor="let p of product; index as i">
+  <ion-row>
+    <ion-col>
+      <img src="../../../assets/mug.jpg" />
+    </ion-col>
+    <ion-col size="9">
+      <h4>
+        <ion-card-title>{{p.name}}</ion-card-title>
+      </h4>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col class="center">
+      <ion-button (click)="loadProduct(p)">Ver mas</ion-button>
+    </ion-col>
+    <ion-col class="heart">
+      <div *ngIf="productLike">
+        <ion-icon *ngIf="!checkFav(p)" name="heart-outline" (click)="addFav(p)"></ion-icon>
+        <ion-icon *ngIf="checkFav(p)" color="danger" name="heart" (click)="deleteFav(p)"></ion-icon>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-card>
 </ion-content>

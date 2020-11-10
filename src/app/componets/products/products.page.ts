@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../app/services/products.service';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, LoadingController, AlertController, ToastController, ModalController  } from '@ionic/angular';
-import  { ProductPage } from '../product/product.page'
+import { NavController, LoadingController, AlertController, ToastController, ModalController } from '@ionic/angular';
+import { ProductPage } from '../product/product.page'
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.page.html',
@@ -19,7 +22,7 @@ export class ProductsPage implements OnInit {
   public name;
   search = '';
 
-  constructor(private _productsService: ProductsService, private activatedRoute: ActivatedRoute, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController) { }
+  constructor(private _productsService: ProductsService, private activatedRoute: ActivatedRoute, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController, private http: HttpClient) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -33,6 +36,8 @@ export class ProductsPage implements OnInit {
       translucent: true,
     });
     await loading.present();
+    this.user = localStorage.getItem("identity")
+    this.user = JSON.parse(this.user);
     this.cart = []
     let array = localStorage.getItem('cart');
     array = JSON.parse(array);
@@ -46,6 +51,17 @@ export class ProductsPage implements OnInit {
         this.product.forEach(element => {
           element['name'] = decodeURIComponent(element['name']);
         });
+        if (this.user) {
+          this._productsService.getFav(this.user[0].id).subscribe(
+            (response) => {
+              this.productLike = response;
+              this.productLike.forEach(element => {
+                element['name'] = decodeURIComponent(element['name']);
+              });
+            }
+          ), error => {
+          }
+        }
         this.loadingController.dismiss();
       },
       async (error) => {
@@ -103,7 +119,7 @@ export class ProductsPage implements OnInit {
     const modal = await this.modalController.create({
       component: ProductPage,
       swipeToClose: true,
-      componentProps: { product: p}
+      componentProps: { product: p }
     });
     modal.onDidDismiss().then((data) => {
       this.ngOnInit();
@@ -127,9 +143,50 @@ export class ProductsPage implements OnInit {
       this.navCtrl.navigateForward('/cart');
     }
   }
-  
+
   gotoLogin() {
     this.navCtrl.navigateForward('/cart');
+  }
+
+  checkFav(p) {
+    for (let x = 0; x < this.productLike.length; x++) {
+      if (p.id == this.productLike[x].productId) {
+        return true;
+      }
+    }
+    return false
+  }
+
+  addFav(p) {
+    this.productLike.push({ "productId": p.id, "userId": this.user[0].id })
+    var body = {
+      "productId": p.id,
+      "userId": this.user[0].id
+    };
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("token")
+    });
+    this.http
+      .post(environment.APIURL + '/addFavorite/',
+        body, { headers: headers })
+      .subscribe(data => {
+      }, error => {
+        console.log(error);
+      }
+      );
+  }
+
+  deleteFav(p) {
+    for (let i = 0; i < this.productLike.length; i++) {
+      if (p.id == this.productLike[i].productId) {
+        this.productLike.splice(i, 1)
+      }
+    }
+    this._productsService.deleteFav(p.id, this.user[0].id).subscribe((response) => {
+    }, error => {
+      console.log(error);
+    });
   }
 
 }
