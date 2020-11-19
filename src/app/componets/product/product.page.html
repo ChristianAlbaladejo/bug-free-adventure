@@ -11,19 +11,21 @@
 
 <ion-content>
   <ion-card>
-    
-      <ion-row>
-        <ion-col size="9">
-          <h3><ion-card-title>{{product.name}}</ion-card-title></h3>
-        </ion-col>
-        <ion-col class="heart">
-          <div *ngIf="productLike">
-            <ion-icon *ngIf="!checkFav(product)" name="heart-outline" (click)="addFav(product)"></ion-icon>
-            <ion-icon *ngIf="checkFav(product)" color="danger" name="heart" (click)="deleteFav(product)"></ion-icon>
-          </div>
-        </ion-col>
-      </ion-row>
-        <img src="../../../assets/mug.jpg" />
+    <ion-row>
+      <ion-col size="9">
+        <h3>
+          <ion-card-title>{{product.name}}</ion-card-title>
+        </h3>
+      </ion-col>
+      <ion-col class="heart">
+        <div *ngIf="productLike">
+          <ion-icon *ngIf="!checkFav(product)" name="heart-outline" (click)="addFav(product)"></ion-icon>
+          <ion-icon *ngIf="checkFav(product)" color="danger" name="heart" (click)="deleteFav(product)"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+    <img *ngIf="!product.image" src="../../../assets/mug.jpg" />
+    <img *ngIf="product.image" src="{{product.image}}" />
     <ion-row>
       <ion-col>
         <h2 class="price"> {{product.costPrice}} €</h2>
@@ -50,13 +52,20 @@
     </ion-row>
     <ion-item lines="none" class="preparation-notes">
       <ion-label position="floating">Notas de preparación</ion-label>
-      <ion-textarea></ion-textarea>
+      <ion-textarea [(ngModel)]="product.notes"></ion-textarea>
     </ion-item>
     <ion-row>
       <ion-col>
-        <ion-icon color="success" class="share" name="logo-whatsapp"></ion-icon>
-        <ion-icon color="primary" class="share" name="logo-facebook"></ion-icon>
-        <ion-icon color="secondary" class="share" name="logo-twitter"></ion-icon>
+        <a href="https://api.whatsapp.com/send?text=Mirar este producto de | http://192.168.200.227:8100/">
+          <ion-icon color="success" class="share" name="logo-whatsapp"></ion-icon>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com">
+          <ion-icon color="primary" class="share" name="logo-facebook"></ion-icon>
+        </a>
+        <a href="https://twitter.com/share?url=Mira este producto de Mi empresa">
+          <ion-icon href="https://twitter.com/share?url=Mira este producto de Mi empresa" color="secondary"
+            class="share" name="logo-twitter"></ion-icon>
+        </a>
       </ion-col>
     </ion-row>
   </ion-card>

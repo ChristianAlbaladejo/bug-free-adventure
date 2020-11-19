@@ -38,6 +38,7 @@ export class ProductPage implements OnInit {
       ), error => {
       }
     }
+    this.product.notes = "";
   }
 
   async addToCart(){

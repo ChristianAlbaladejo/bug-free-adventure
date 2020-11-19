@@ -10,8 +10,9 @@ export class ProductsService {
   public stats;
 
   constructor(public _http: HttpClient) {
-    this.url = environment.APIURL;
-    /*   this.url = 'http://localhost:3000'; */
+    /* this.url = 'https://panesandco.herokuapp.com'; */
+    this.url = "https://delivery.jnc.es";
+    /* this.url = "http://localhost:3000";   */
   }
 
   getFamilies(): Observable<any> {

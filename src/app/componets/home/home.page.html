@@ -18,17 +18,19 @@
   </ion-refresher>
   <ion-searchbar [(ngModel)]="search" animated (ionChange)="filter($event)"></ion-searchbar>
   <div *ngIf="search==''">
-    <ion-card *ngFor="let family of familyes" (click)="goToFamili(family.name ,family.id)">
-      <img src="../../../assets/SALADO.jpg" />
+    <ion-card class="family" *ngFor="let family of familyes" (click)="goToFamili(family.name ,family.id)">
+      <img *ngIf="family.image == 'null'" src="../../../assets/SALADO.jpg" />
+      <img *ngIf="family.image != 'null' " src="{{family.image}}" />
       <div class="card-title">{{family.name | uppercase }}</div>
     </ion-card>
   </div>
 
   <div *ngIf="search!=''">
-    <ion-card *ngFor="let p of product; index as i">
+    <ion-card  *ngFor="let p of product; index as i">
       <ion-row>
         <ion-col>
-          <img src="../../../assets/mug.jpg" />
+          <img  class="product" *ngIf="!p.image" src="../../../assets/mug.jpg" />
+          <img  class="product" *ngIf="p.image" src="{{p.image}}" />
         </ion-col>
         <ion-col size="9">
           <h4>

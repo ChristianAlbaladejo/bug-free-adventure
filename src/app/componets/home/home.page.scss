@@ -1,3 +1,23 @@
+/* ion-content {
+ background-image: url("../../../assets/fondo.jpg");
+ background-repeat: no-repeat;
+background-size:cover;
+} */
+
+/* ion-content{
+-–background: url("../../../assets/fondo.jpg");
+-–background-repeat: no-repeat;
+-–background-size: cover;
+} */
+
+/* ion-content{
+    --background: #fff url('../../../assets/fondo.jpg') no-repeat center center / cover;
+} */
+
+.searchbar-ios .searchbar-input {
+    background-color: white !important;
+}
+
 .card-title {
     position: absolute;
     top: 36%;
@@ -29,10 +49,22 @@ img {
     border-radius: 5%;
 }
 
-ion-card {
+@media (max-width: 800px) {
+.family {
     border-radius: 5%;
+    max-height: 125px;
+}
 }
 
 .picker {
     margin-top: 1rem;
 }
+
+.product {
+    border-radius: 5%;
+    margin-top: 3rem;
+  /*   width: 15rem;
+    height: 5rem; */
+}
+
+

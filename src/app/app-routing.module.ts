@@ -58,6 +58,14 @@ const routes: Routes = [
   {
     path: 'product/:id',
     loadChildren: () => import('./componets/product/product.module').then( m => m.ProductPageModule)
+  },
+  {
+    path: 'success',
+    loadChildren: () => import('./payment/success/success.module').then( m => m.SuccessPageModule)
+  },
+  {
+    path: 'failure',
+    loadChildren: () => import('./payment/failure/failure.module').then( m => m.FailurePageModule)
   }
 ];
 

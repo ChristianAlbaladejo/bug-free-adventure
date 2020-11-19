@@ -1,41 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Opciones de pago</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
 <ion-content>
   <div *ngIf="user">
     <ion-toolbar>
-      <ion-title>Dirección</ion-title>
+      <ion-title>Envío</ion-title>
     </ion-toolbar>
-    <ion-item>
-      <ion-label position="floating" >Calle</ion-label>
-      <ion-input type="text" [(ngModel)]="user[0].calle"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" >Población</ion-label>
-      <ion-input type="text" [(ngModel)]="user[0].poblacion"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" >CP</ion-label>
-      <ion-input type="number" [(ngModel)]="user[0].CP"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" >Teléfono</ion-label>
-      <ion-input type="tel" [(ngModel)]="user[0].telefono"></ion-input>
-    </ion-item>
+    <ion-list>
+      <ion-radio-group value="efectivo" [(ngModel)]="deliveryType">
+        <ion-item>
+          <ion-label>Recoger en tienda</ion-label>
+          <ion-radio slot="start" value="tienda"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Envío a domicilio</ion-label>
+          <ion-radio slot="start" value="domicilio"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <div *ngIf="deliveryType == 'domicilio'">
+      <ion-toolbar>
+        <ion-title>Dirección</ion-title>
+      </ion-toolbar>
+      <ion-item>
+        <ion-label position="floating">Calle</ion-label>
+        <ion-input type="text" [(ngModel)]="user[0].calle"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Población</ion-label>
+        <ion-input type="text" [(ngModel)]="user[0].poblacion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">CP</ion-label>
+        <ion-input type="number" [(ngModel)]="user[0].CP"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input type="tel" [(ngModel)]="user[0].telefono"></ion-input>
+      </ion-item>
+    </div>
     <ion-item>
       <ion-label>Fecha de reparto</ion-label>
       <ion-datetime displayFormat="MMM DD, YYYY HH:mm" minuteValues="00,15, 30, 45" [min]="myDate" [(ngModel)]="myDate">
       </ion-datetime>
     </ion-item>
-
+    <ion-item>
+      <ion-label position="floating">¿Algo que añadir?</ion-label>
+      <ion-textarea [(ngModel)]="orderNotes">
+      </ion-textarea>
+    </ion-item>
     <ion-toolbar>
       <ion-title>Forma de pago</ion-title>
     </ion-toolbar>
@@ -55,7 +65,7 @@
       <ion-col>
       </ion-col>
       <ion-col>
-        <ion-button (click)="buy()">
+        <ion-button (click)="charge()">
           Realizar pedido
         </ion-button>
       </ion-col>

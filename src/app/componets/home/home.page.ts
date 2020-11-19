@@ -23,6 +23,10 @@ export class HomePage implements OnInit {
   constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController, private http: HttpClient) { }
 
   ngOnInit() {
+    if (localStorage.getItem('cart')) {
+    } else {
+      localStorage.setItem('cart', JSON.stringify({}));
+    } 
     this.user = localStorage.getItem("identity")
     this.user = JSON.parse(this.user);
     let array = localStorage.getItem('cart');
