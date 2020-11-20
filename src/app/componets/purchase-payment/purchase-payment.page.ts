@@ -52,6 +52,11 @@ export class PurchasePaymentPage implements OnInit {
   }
 
   buy() {
+    if (this.deliveryType == 'tienda'){
+      this.orderNotes +=  " -  " + this.deliveryType
+    }else {
+      this.orderNotes += " - " + this.deliveryType + " - " + this.user[0].calle + " " + this.user[0].poblacion + " " + this.user[0].CP
+    }
     let orderlines = JSON.stringify(this.products)
     let re = /\"/gi;
     let result = orderlines.replace(re, "'");
@@ -66,10 +71,10 @@ export class PurchasePaymentPage implements OnInit {
       'sended': true,
       'userId': this.user[0].id,
       'userName': this.user[0].name + " " + this.user[0].lastname,
-      'userPhone': this.user[0].telefono + " " + this.user[0].calle + " " + this.user[0].poblacion + " " + this.user[0].CP,
+      'userPhone': this.user[0].telefono,
       'email': this.user[0].email,
       'deliveryDate': this.myDate,
-      'orderNotes': this.orderNotes + "- " + this.deliveryType ,
+      'orderNotes': this.orderNotes,
       'chargesType': this.chargesType
     };
     /*    var stripe = Stripe("pk_test_51HEUwyHEn9GtZEa1MREuwoi8CkUzInUwOkcGkcS87p5mr0wr5uq0I3tTaWeGUZidIJguf1vljNTxm8cge7YSwzfh00BsLJlyKO");
