@@ -41,6 +41,16 @@ export class ProductPage implements OnInit {
     this.product.notes = "";
   }
 
+  ionViewDidEnter() {
+    this.ngOnInit()
+  }
+
+  decrementQty() {
+    if (this.product.quantity > 1) {
+      this.product.quantity -= 1;
+    }
+  }
+
   async addToCart(){
     let flag = false;
     this.array = localStorage.getItem('cart');

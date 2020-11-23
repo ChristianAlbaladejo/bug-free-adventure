@@ -30,6 +30,10 @@ export class ProductsPage implements OnInit {
     this.loadProducts();
   }
 
+  ionViewDidEnter() {
+    this.ngOnInit()
+  } 
+
   async loadProducts() {
     const loading = await this.loadingController.create({
       message: 'Cargando...',
@@ -62,7 +66,7 @@ export class ProductsPage implements OnInit {
           ), error => {
           }
         }
-        this.loadingController.dismiss();
+        loading.dismiss();
       },
       async (error) => {
         const alert = await this.alertController.create({
@@ -78,10 +82,10 @@ export class ProductsPage implements OnInit {
           ]
         });
         await alert.present();
-        this.loadingController.dismiss();
       }
     );
   }
+
   doRefresh(event) {
     this.loadProducts();
     event.target.complete();

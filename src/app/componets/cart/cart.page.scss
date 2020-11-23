@@ -1,11 +1,19 @@
-
 .picker {
     margin-top: 0.5rem;
     border: none;
+    pointer-events: auto;
 }
 
-.trash{
+.trash {
     margin-top: 1.1rem;
+}
+
+.picker ion-icon {
+    zoom: 1.3;
+}
+
+.number{
+   --opacity:1 !important;
 }
 
 .center {
@@ -14,6 +22,6 @@
 }
 
 .cart {
-    color: #C7C7C7;
-    zoom:6;
+    color: #c7c7c7;
+    zoom: 6;
 }

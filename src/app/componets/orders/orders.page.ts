@@ -12,12 +12,12 @@ export class OrdersPage implements OnInit {
   public orders = [];
   public user;
   public cart = [];
-  constructor(private _productsService: ProductsService, public navCtrl: NavController, public actionSheetController: ActionSheetController, public toastController: ToastController) {
+  constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public actionSheetController: ActionSheetController, public toastController: ToastController) {
     this.user = localStorage.getItem("identity")
     this.user = JSON.parse(this.user);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.load();
     this.cart = []
     let array = localStorage.getItem('cart');
@@ -27,18 +27,31 @@ export class OrdersPage implements OnInit {
     }
   }
 
-  load() {
+  ionViewDidEnter() {
+    this.ngOnInit()
+  }
+
+  async load() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      translucent: true,
+    });
+    await loading.present();
+    this.orders = []
     this._productsService.getSalesOrders(this.user[0].id).subscribe(data => {
-      data.forEach(element => {
+      /* data.forEach(element => {
         this.orders.push(element)
-      });
+      }); */
+      this.orders = data;
       for (let i = 0; i < this.orders.length; i++) {
         this.orders[i].orderLines = this.orders[i].orderLines.replace(/'/g, '"');
         this.orders[i].orderLines = JSON.parse(this.orders[i].orderLines);
       }
       this.orders = this.orders.reverse();
+      this.loadingController.dismiss();
     }, error => {
       console.log(error);
+      this.loadingController.dismiss();
     })
   }
 
@@ -67,7 +80,7 @@ export class OrdersPage implements OnInit {
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
     }
-    this.ngOnInit()
+    /* this.ngOnInit() */
     const toast = await this.toastController.create({
       message: 'Pedido añadido',
       duration: 2000,

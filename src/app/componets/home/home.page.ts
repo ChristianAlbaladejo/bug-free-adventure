@@ -23,20 +23,14 @@ export class HomePage implements OnInit {
   constructor(private _productsService: ProductsService, public navCtrl: NavController, public loadingController: LoadingController, public alertController: AlertController, public toastController: ToastController, public modalController: ModalController, private http: HttpClient) { }
 
   ngOnInit() {
-    if (localStorage.getItem('cart')) {
-    } else {
-      localStorage.setItem('cart', JSON.stringify({}));
-    } 
-    this.user = localStorage.getItem("identity")
-    this.user = JSON.parse(this.user);
-    let array = localStorage.getItem('cart');
-    array = JSON.parse(array);
-    this.cart = []
-    for (let i = 0; i < array.length; i++) {
-      this.cart.push(array[i]);
-    }
+    this.products();
     this.load();
   }
+
+  ionViewDidEnter() {
+    this.products()
+  }
+
   async load() {
     const loading = await this.loadingController.create({
       message: 'Cargando...',
@@ -66,6 +60,21 @@ export class HomePage implements OnInit {
         this.loadingController.dismiss();
       }
     );
+  }
+
+  products(){
+    if (localStorage.getItem('cart')) {
+    } else {
+      localStorage.setItem('cart', JSON.stringify({}));
+    }
+    this.user = localStorage.getItem("identity")
+    this.user = JSON.parse(this.user);
+    let array = localStorage.getItem('cart');
+    array = JSON.parse(array);
+    this.cart = []
+    for (let i = 0; i < array.length; i++) {
+      this.cart.push(array[i]);
+    }
   }
 
   ifLogin() {

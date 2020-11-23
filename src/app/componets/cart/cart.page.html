@@ -22,7 +22,7 @@
           <ion-col>
             <ion-item class="picker" lines="none">
               <ion-icon color="success" name="remove-circle" (click)="decrementQty(i)" item-right></ion-icon>
-              <ion-input type="number" min="1" [value]="p.quantity" [(ngModel)]="p.quantity"></ion-input>
+              <ion-input type="number" min="1" [value]="p.quantity" [(ngModel)]="p.quantity" class="number" disabled></ion-input>
               <ion-icon color="danger" name="add-circle" (click)="incrementQty(i)" item-right></ion-icon>
             </ion-item>
           </ion-col>
